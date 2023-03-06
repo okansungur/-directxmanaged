@@ -1,0 +1,8 @@
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\dopler.Properties.Resources.resources
+obj\Debug\dopler.csproj.GenerateResource.Cache
+bin\Debug\dopler.exe
+bin\Debug\dopler.pdb
+obj\Debug\dopler.exe
+obj\Debug\dopler.pdb
+obj\Debug\snd.sess.resources

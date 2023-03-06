@@ -1,0 +1,5 @@
+obj\Debug\ResolveAssemblyReference.cache
+bin\Debug\chapter4_C.exe
+bin\Debug\chapter4_C.pdb
+obj\Debug\chapter4_C.exe
+obj\Debug\chapter4_C.pdb

@@ -1,0 +1,8 @@
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\baslangic2.Form1.resources
+obj\Debug\baslangic2.Properties.Resources.resources
+obj\Debug\baslangic2.csproj.GenerateResource.Cache
+bin\Debug\baslangic2.exe
+bin\Debug\baslangic2.pdb
+obj\Debug\baslangic2.exe
+obj\Debug\baslangic2.pdb

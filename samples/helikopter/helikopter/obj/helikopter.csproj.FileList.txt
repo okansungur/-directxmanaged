@@ -1,0 +1,8 @@
+obj\Debug\ResolveAssemblyReference.cache
+bin\Debug\helikopter.exe
+bin\Debug\helikopter.pdb
+obj\Debug\helikopter.exe
+obj\Debug\helikopter.pdb
+obj\Debug\helikopter.heli.resources
+obj\Debug\helikopter.csproj.GenerateResource.Cache
+obj\Debug\helikopter.helikopter.resources

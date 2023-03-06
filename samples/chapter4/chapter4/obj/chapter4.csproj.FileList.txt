@@ -1,0 +1,7 @@
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\chapter4.Properties.Resources.resources
+obj\Debug\chapter4.csproj.GenerateResource.Cache
+bin\Debug\chapter4.exe
+bin\Debug\chapter4.pdb
+obj\Debug\chapter4.exe
+obj\Debug\chapter4.pdb

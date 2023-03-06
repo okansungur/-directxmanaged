@@ -1,0 +1,7 @@
+obj\Debug\snd.exe
+obj\Debug\snd.pdb
+bin\Debug\snd.exe
+bin\Debug\snd.pdb
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\snd.ses.resources
+obj\Debug\snd.csproj.GenerateResource.Cache
