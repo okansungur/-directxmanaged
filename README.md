@@ -44,6 +44,13 @@ Sağ el ve sol el koordinat sistemleri arasındaki farka gelince; sağ eli kulla
 
 Sağ ele dayanan koordinat sisteminde sağ elimizin başparmağı X eksenini, diğer parmaklar ise Y eksenini gösterecek şekilde tutulduğunda, “Z ekseni” avuç içi yönünde ekrandan dışarıya doğru yönlenmektedir. Sol ele dayanan koordinat sisteminde ise yine başparmak X ekseni yönünde, diğer parmaklar y ekseni yönünde tutulduğunda avuç içi Z eksenini göstermekte yani ekrandan içeriye doğru yönlenmektedir. Direct3D sol-ele dayanan koordinat sistemini kullanmaktadır.
 
+
+
+<p align="center">
+  <img  src="https://github.com/okansungur/directxmanaged/blob/main/vmware.png" width=100% height=100% ><br/>
+   vmware screenshot
+</p>
+
 __Kamera Tanımlanması__
 
 Bu bölümdeki uygulamamızda, üç-boyutlu nesne görüntülemek için, yani nesnelerin daha gerçekçi olabilmesi için kameranın nasıl tanımlandığını göstereceğiz. Bunun için bazı kavramları inceleyelim.
@@ -224,3 +231,109 @@ Pan özelliği ise sesin sağ ve sol konumunu kontrol etmektedir. Değer “0”
 Frekans değeri, saniyede çalmasını istediğimiz, tamponda tutulan veri miktarıdır. Bu değer 1- 100.000 arasında olabilmektedir. Gelişmiş bazı sistemlerde değer daha da yukarı çıkabilmektedir.
 Frekansı değiştirdikten sonra, örneğin  “buf.Frequency = 50000;” değerini verdikten sonra bu değeri tekrar normal değerine  dönüştürmek için yapılması gereken:
 “buf.Frequency = buf.Format.SamplesPerSecond;” komutunu uygulamaya eklemektir.
+
+__DirectSound Ses Efektlerinin Uygulanması__
+
+DirectSound 9’daki en önemli özelliklerden bir tanesi de ses efektlerinin elde edilebilmesidir. Bu efektler ses kartında uygulanır. Ancak ses kartı yeterli değilse o zaman işlemler yazılımda gerçekleştirilir. Bu da performansı önemli ölçüde azaltır. Dokuz adet ses efektini şu şekilde sıralayabiliriz:
+```
+effects[0].GuidEffectClass = DSoundHelper.StandardChorusGuid;
+effects[1].GuidEffectClass = DSoundHelper.StandardEchoGuid;
+effects[2].GuidEffectClass = DSoundHelper.StandardFlangerGuid;
+effects[3].GuidEffectClass = DSoundHelper.StandardDistortionGuid;
+effects[4].GuidEffectClass = DSoundHelper.StandardWavesReverbGuid;
+effects[5].GuidEffectClass = DSoundHelper.StandardInteractive3DLevel2ReverbGuid;
+effects[6].GuidEffectClass = DSoundHelper.StandardParamEqGuid;
+effects[7].GuidEffectClass = DSoundHelper.StandardCompressorGuid;
+effects[8].GuidEffectClass = DSoundHelper.StandardGargleGuid;
+```
+Bu efektleri uygularken ses dosyasının çalmıyor olması gerekmektedir.
+Efektleri bir dizi içerisine de ekleyerek farklı efektler elde edebilmekteyiz. Efektlerin tanımlarını incelersek konu üzerinde daha fazla hakimiyet sağlayabiliriz.
+Efektler 
+Chorus: Aynı sese arka arkaya eko verilmesiyle elde edilir.                                       
+Audio-Compression: Belirli bir genişliğin altındaki ses dalgasının, iniş ve çıkışlarındaki azalma olarak nitelendirilir.
+Audio-Distortion: Ses dalgasının iniş çıkışlarındaki seviyelerin, negatif veya pozitif   veriler şeklinde oranlanmasını ifade eder.      
+Eko: Ses dalgasının belirli bir gecikmeyle arka arkaya tekrarıdır.                           
+Environmental Revebration: Sesin, bir engelden birincil ve ikincil yansımasını temsil eder. Örneğin sesin duvardan yansıması. İnsan kulağı birincil ve ikincil yansımalara karşı duyarlıdır.
+Flange: Bir eko efektidir. Orjinal ses ve ekosu arasındaki süre kısaltılmıştır.               
+Gargle: Ses dalgasının genliğinin değiştirilmesiyle elde edilir.                               
+Parametric Equilazer: Belirli bir frekansta ses dalgasının, pozitif veya negatif olarak oranlanmasıdır.                                                                 Wave Reverbertion:Sesin yankılanmasıdır; genellikle müzikle beraber kullanılmaktadır.
+
+
+
+
+__Üç Boyutlu Ortamda Seslerin Kullanılması (Doppler Efekti)__
+
+DirectSound oldukça hızlıdır. Ses kartınız 3D sesleri desteklemese bile bu işlemin yazılım tarafından yapılmasını sağlar. Ancak bunun performans açısından sakıncaları vardır. Buffer3D sınıfı üçboyutlu ortamda konum, yönelim ve çevresel faktörlerle ilgili metot ve özellikler içeren bir sınıftır.
+Üç  boyutlu ortamda ses kaynakları, Buffer3D sınıfı nesneleri ile belirtilmektedir. Burada en önemli nokta sesin mono olarak tercih edilmesidir. Yönelimi olmayan ses, belirli bir uzaklıkta, her yönde aynı genliğe sahiptir. Ses konileri sayesinde sesin belirli bir yöne yönelimini sağlayabiliriz. Oyunlarda mutlaka  dikkatinizi çekmiştir. Karakterimiz bir kapının önünden geçerken, içerideki konuşmaları en anlaşılır biçimde duyar.
+Buffer3D sınıfı bize sesin yönelimi ile ilgili bazı özellikler sunmaktadır. Buffer3D.ConeAngles, Buffer3D.ConeOrientation, Buffer3D.ConeOutsideVolume gibi. Bir tampon oluşturulacağı zaman Buffer3D sınıfı oluşturucusuna parametre olarak SecondaryBuffer nesnesi  gönderir. Ardından Buffer3D özelliği true yapılır.
+
+__Buffer3D Nesnesinin Özellikleri__
+
+ConeOrientation: Sesin içerisinde yayılacağı koniyi belirtmek için kullanılır.
+Velocity: Sesin hareket halindeki hızını belirtmek için kullanılır.
+MinDistance, MaxDistance: MinDistance değerine kadar ses maksimum yüksekliktedir. MinDistance ve MaxDistance arasında ses kademe kademe azalır. Bu özellikleri daha iyi anlamamız için test etmemiz gerekir.
+Position: Ses kaynağının konumunu belirtir.
+Listener3D: Dinleyici konumu, hızı ve diğer özelliklerini belirtir. Bu da bizim için işleri kolaylaştırır.
+Listener3D  Nesnesinin Özellikleri
+CommitDeferredSettings: 3D-soundBuffer ve Listener ayarındaki değişiklikler seslerin      karışmasına, dolayısıyla performansın düşmesine sebep olur. Deferred özelliği true olarak ayarlanırsa; commitDeferredSettings() metodu çağrılıncaya kadar değişiklikler uygulanmaz. Bu özelliğin false yapılması ile değişiklik hemen uygulanır. Uzaklık etkisi hız değişimi ile birlikte Doppler kayması efektini de etkiler.
+“Deferred” terimi sözlük anlamı olarak ertelenmiş manasına gelmektedir.
+DopplerFactor
+Hareket eden bir nesnenin ses frekansındaki ani değişikliği olarak özetlenebilir. Örneğin ambulansın bize yaklaşması ve uzaklaşmasındaki ses veya su yüzeyindeki dalgalanmalar gibi. Küçük havuza düşmüş bir kelebeği düşünelim. Kelebeğin daha yakın olduğu kenarda, dalgalanmalar daha fazla hissedilecektir. 
+
+
+
+
+
+
+__Doppler Efekti__
+
+Doppler efekti 0-10 arası değerler alabilmektedir. “0” konumunda efekt elde edemeyiz. 10 değerinde ise gerçek ortamdaki sesin 10 kat daha fazla ses çıkabilmektedir. Bu bazı oyunlardaki abartılı sesler için kullanılmaktadır.
+DistanceFactor
+Vektör içerisindeki değerler, metre cinsinden değerlendirilir. Varsayılan değer 1’dir. Bu değeri 2 yaparsak, örneğin (0,1,0), noktanın dinleyiciye olan uzaklığını, 2 metre olarak belirtmiş oluruz.
+
+__RolloffFactor__
+
+Sesin uzaklaştıkça ne kadar zamanda kısılacağını belirlemeye yarar. “0” minimum değer olarak kullanılır. Maksimum değer olarak da “10” kullanılır. Bu değeri “10” olarak belirtirsek, ses kaynağından uzaklaşmamıza bağlı olarak, sesin kaybolduğunu gözlemleriz. “0” olarak ayarlandığında sesi minimum değerde duyabiliriz. 
+
+
+
+__FPS__
+
+FPS (Frame Per Second), saniyede render edilen görüntü sayısı olarak nitelendirilir. Ekranın bir yarısında 30 fps ile çalışan bir uygulama, diğer yarısında ise daha yüksek fps ile çalışan bir uygulama konulduğunda, iki görüntü arasında belirgin bir farklılık gözlemlenecektir. Yüksek fps değerine sahip uygulamada görüntünün diğerine göre daha kaliteli olduğu söylenebilir. 30 fps değeri ideal bir orandır. Ancak görüntülerin gerçekliğini daha da arttırmak için oranı biraz daha yükseltebiliriz. Yüksek fps değerlerinde kareler arasındaki yumuşatılmış geçişler dikkat çekicidir. 
+Aşağıdaki uygulamamızda fps değerlerini bulmayı ve bunları ekranda görüntülemeyi öğreneceksiniz. Fps değerleri bazı oyunlarda maximum 30 ile sınırlandırılmıştır ve bunun üzerine çıkmaya izin verilmez. Bazı durumlarda ekranın tazeleme oranı maksimum değer olarak alınır. Bu değer genelde 60, 75, 85 veya 100hz olabilir
+
+
+
+
+__HLSL (High Level Shader Language)__
+
+Shading kavramı, bir yüzeyden dönen rengin hesaplanması olarak tanımlanabilir. Daha önceki teknolojilerde efektler, görüntü her render edildiğinde, işlemci tarafından hesaplanmaktaydı. Bu da performansın önemli ölçüde azalmasına sebep olmaktaydı.
+NVIDIA, ATI gibi firmalar, efektlerin ekran kartları üzerinde programlanabilir hale  getirdikten sonra performans ve görüntü kalitesinde önemli değişiklikler meydana geldi.
+Direct3D için kullanılan bu efektler başlangıçta Assembly(ASM) türünde yazılmaktaydı. ASM kodları kullanarak programlama, oldukça zor ve karmaşık olduğu için  ve de donanımların programa desteği kısıtlı olduğu için, başlangıçta fazla bir gelişme kaydedilemedi. Donanımların kapasitesinin artmasıyla birlikte Microsoft, C benzeri bir programlama dili geliştirmeye karar verdi. Bu sayede efektler de gelişmeye başladı ve görüntüler daha gerçekçi olarak yansıtıldı. Bununla birlikte daha kapsamlı kodlarda kolaylıkla yazılmaya başlandı.
+HLSL, C benzeri bir programlama dili olup özel yapılar içermektedir. Bu dilin en büyük özelliklerinden biri oldukça hızlı çalışması ve kolay geliştirilebilir olmasıdır. Kodu bir kez yazıp, defalarca çalıştırabiliriz. Piyasadaki ekran kartlarıyla da oldukça uyumlu bir şekilde çalışmaktadır.
+Yönetimli DirectX ile birlikte, HLSL kullanarak  oyun sahnelerinde çok daha gerçekçi görüntüler elde edebiliriz. Ve bu efektlerle birlikte performans kaybını da en aza indirebiliriz. HLSL yapısı gereği kolay öğrenilebilir bir programlama mantığına sahiptir.
+Genel olarak; giysi simülasyonu, baloncuk, köpük, dokular, yüz ifadeleri, lens efektleri, sualtı efektleri, ışıklandırma gibi alanlarda kullanılabilir.
+Aynen  Java ve C# programlama dillerinde olduğu gibi, yeni HLSL versiyonları ile daha anlaşılır metotlar ve programcının işini kolaylaştıracak yenilikler getirilmiştir. Bu yeni metotlar ve değişikliklere konumuzun ilerleyen bölümlerinde değineceğiz. 
+HLSL versiyon 1.4’ten once 12 temel komut bulunmaktaydı. Versiyon 1.4 ten sonra komut sayısında artma olmuştur. En basit versiyon 1.1 ile başlamaktadır.
+OpenGL, DirectX ile aynı performansı göstermektedir. OpenGL’de kullanılan shading dili GLSL’dir. HLSL sayesinde DirectX, bu rekabette şu an biraz daha öndedir.
+Shader kavramı üç bölümde incelenmektedir. Bunlar vertex shader, pixel shader ve geometry shader olarak ifade edilir.
+
+Vertex Shader 
+DirectX8.0:Versiyon 1.0
+DirectX8.1: Versiyon 1.1
+DirectX 9.0:Versiyon 2.0 
+Pixel Shader
+DirectX8.0:Versiyon 1.0/1.1
+DirectX8.1:Versiyon 1.4
+DirectX 9.1:Versiyon 2.0/3.0
+
+
+
+Vertex ve pixel shader versiyonları ve bunlara verilen DirectX desteği yukarıda belirtilmiştir.
+Vertex Shader: Nesnelerin görüntülenmesi, yer değiştirmesi, nesnelere doku atanması, renklendirilmesi ve ışıklandırma hesaplarının yapılabilmesini sağlar. Uygulama tarafından gönderilmiş olan verilerle, köşeler üzerinde işlem yapılmasına olanak sağlayan bir yapıdır.
+Pixel Shader: Her bir piksel üzerinde işlem yapılır. Vertex Shader ile  ortak çalışmaktadır. Vertex shader’dan elde edilen köşeler (üçgen) pixel shader’a iletilir. Bu verilerin  son renkleri hesaplanır ve ardından  ekrana yansıtılır. Doku ve ışıklandırma için kullanılabilinir.
+Geometry Shader: Üçgenler şeklinde veriler alınıp, bu üçgenleri kullanarak yenileri oluşturulur. Gölge boyutunu arttırmak ve kürk oluşumu gibi işlemler için kullanılabilinir.
+ 
+ 
+ 
+ 
