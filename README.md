@@ -1,4 +1,4 @@
-# -directxmanaged
+# C# and Managed DirectX
 
 ### Kodları Çalıştırmak
 Gerekli olan kurulum dosyalarını GoogleDrive’da bulabilirsiniz. Takip ediyorsanız Managed DirectX teknolojisi ve bununla birlikte XNA teknolojileri artık kullanılmamaktadır. Yazılan kitap 2008 yılındaki zamanın  güncel teknolojilerine göre yazılmıştır. Bunun yerine daha hızlı ve lightweight ortamlar kullanılmaktadır. Gdevelop, Unity gibi. Güncel teknolojilerin takip edilmesi gerekmektedir. 
