@@ -1,7 +1,7 @@
 # C# and Managed DirectX
-
+### 2008
 ### Kodları Çalıştırmak
-Gerekli olan kurulum dosyalarını GoogleDrive’da(https://drive.google.com/drive/folders/1crM-n79bLOUxMpisIpbfygFXAFD035aR?usp=sharing) bulabilirsiniz. Takip ediyorsanız Managed DirectX teknolojisi ve bununla birlikte XNA teknolojileri artık kullanılmamaktadır. Yazılan kitap 2008 yılındaki zamanın  güncel teknolojilerine göre yazılmıştır. Bunun yerine daha hızlı ve lightweight ortamlar kullanılmaktadır. Gdevelop, Unity gibi. Güncel teknolojilerin takip edilmesi gerekmektedir. 
+Gerekli olan kurulum dosyalarını GoogleDrive’da(https://drive.google.com/drive/folders/1crM-n79bLOUxMpisIpbfygFXAFD035aR?usp=sharing) bulabilirsiniz. Güncel teknolojileri takip ediyorsanız, Managed DirectX teknolojisi ve bununla birlikte XNA  artık __kullanılmamaktadır__. Yazılan kitap 2008 yılında o dönemin güncel teknolojilerine göre yazılmıştırr. Bunun yerine günümüzde daha hızlı ve lightweight ortamlar kullanılmaktadır. Gdevelop, Unity gibi. Güncel teknolojilerin takip edilmesi başlangıç için daha doğru olabilir. 
 
 Uygulamalarımızın çalışabilmesi için, bilgisayarınızda Microsoft Visual Studio 2005, .Net Framework 2.0 ve örnek uygulamaları inceleyebilmek için de DirectX SDK’nın (August-2006) yüklü olması gerekir. Vmware workstation kullanarak uygulamaları ayağa kaldırabilirsiniz.
 
