@@ -8,7 +8,7 @@ Uygulamalarımızın çalışabilmesi için, bilgisayarınızda Microsoft Visual
 
 
 <p align="center">
-  <img  src="https://github.com/okansungur/portfolio/blob/main/gpimages/vpc1.png" width=100% height=100% ><br/>
+  <img  src="https://github.com/okansungur/directxmanaged/blob/main/kapak.png" width=100% height=100% ><br/>
    Game Programming 2008
 </p>
 
